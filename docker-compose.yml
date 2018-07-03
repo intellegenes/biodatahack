@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:10.1-alpine
+  web:
+    build: .
+    command: python intellegenes/manage.py migrate --noinput
+    command: python intellegenes/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/home/ubuntu/www/intellegenes
+    ports:
+      - 8000:8000
+    environment:
+      - SECRET_KEY=changemeinprod
+    depends_on:
+      - db
+
